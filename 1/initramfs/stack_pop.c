@@ -21,10 +21,10 @@ int main()
 				perror("read");
 			} else {
 				stack_count[size] = 0;
-				printf("Stack item count: %s", stack_count);
+				//printf("Stack item count: %s", stack_count);
 			}
 		}
-		printf("stack_pop: %ld\n", stack_pop());
+		//printf("stack_pop: %ld\n", stack_pop());
 		sleep(rand() % 5 + 1);
 	}
 	return 0;

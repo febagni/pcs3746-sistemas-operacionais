@@ -6,7 +6,7 @@ int main()
 {
 	while(1) {
 		int value = rand() % 100;
-		printf("stack_push(%d)\n", value);
+		// printf("stack_push(%d)\n", value);
 		stack_push(value);
 		sleep(rand() % 4 + 1);
 	}

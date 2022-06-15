@@ -11,7 +11,7 @@
 
 #define len(_arr) ((int)((&_arr)[1] - _arr))
 
-static const char * const programs[] = { "/semaphore" };
+static const char * const programs[] = { "/stop_test" };
 
 void panic(const char *msg)
 {
