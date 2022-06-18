@@ -1,4 +1,4 @@
-CC=$(CROSS_COMPILE)gcc -Wall -Wextra -static -g -pthread -lpthread
+CC=$(CROSS_COMPILE)gcc -Wall -Wextra -static -g
 
 $(shell mkdir -p build/initramfs_root)
 
@@ -9,11 +9,17 @@ clean:
 		rm -rf build
 		find -name '*.o' -delete
 
-build/rootfs.gz: build/initramfs_root/init build/initramfs_root/semaphore
+build/rootfs.gz: build/initramfs_root/init build/initramfs_root/semaphore build/initramfs_root/producer build/initramfs_root/consumer
 		cd build/initramfs_root ; \
 		find -type f -print0 | cpio -0 -ov -H newc | gzip -9 > ../rootfs.gz
 
 build/initramfs_root/init: init.o
+		$(CC) -o $@ $^
+
+build/initramfs_root/semaphore: producer.o
+		$(CC) -o $@ $^
+
+build/initramfs_root/semaphore: consumer.o
 		$(CC) -o $@ $^
 
 build/initramfs_root/semaphore: semaphore.o

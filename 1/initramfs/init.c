@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ipc.h>
+#include <sys/shm.h>
 #include <sys/mount.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -11,6 +12,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "hello_world.h"
+#include "semaphore.h"
 
 #define len(_arr) ((int)((&_arr)[1] - _arr))
 #define SHM_KEY 0x1234
