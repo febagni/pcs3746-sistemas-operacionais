@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "semaphore.h"
+
 #define BUF_SIZE 5
 #define SHM_KEY 0x1234
 
@@ -50,15 +52,15 @@ int main(int argc, char *argv[]) {
    int item;
    while(1){
       item = produce_item();
-      // down(&empty);
-      // down(&mutex);
+      down(&shmp->empty);
+      down(&shmp->mutex);
       shmp->cnt = insert_item(bufptr, spaceavailable, item);
+      up(&shmp->mutex);
+      up(&shmp->full);
       shmp->complete = 0;
       print_buffer(bufptr, spaceavailable);
       bufptr = shmp->buf;
       spaceavailable = BUF_SIZE;
-      // up(&mutex);
-      // up(&full);
       sleep(2);
    }
    return 0;

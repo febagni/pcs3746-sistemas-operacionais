@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "semaphore.h"
+
 #define BUF_SIZE 5
 #define SHM_KEY 0x1234
 
@@ -51,11 +53,11 @@ int main(int argc, char *argv[]) {
          perror("read");
          return 1;
       }
-      // down(&full);
-      // down(&mutex);
+      down(&shmp->full);
+      down(&shmp->mutex);
       item = remove_item(bufptr, space_available);
-      // up(&mutex);
-      // up(&empty);
+      up(&shmp->mutex);
+      up(&shmp->empty);
       consume_item(item);
       sleep(3);
    }
