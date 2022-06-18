@@ -27,7 +27,7 @@ struct shmseg {
     int buf[BUF_SIZE];
 };
 
-static const char * const programs[] = { "/semaphore", "/consumer", "/producer" };
+static const char * const programs[] = {"/consumer", "/producer"};
 
 void panic(const char *msg)
 {

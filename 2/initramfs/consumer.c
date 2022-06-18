@@ -85,7 +85,7 @@ int remove_item(int * bufptr, int size) {
          }
       }
    }
-   return -123;
+   return -1;
 }
 
 void consume_item(int item) {
