@@ -22,10 +22,10 @@ long init_semaphore(int initial_value){
     return syscall(__NR_init_semaphore, initial_value);
 }
 
-long down(int *sem_id){
+long down(int sem_id){
     return syscall(__NR_down, sem_id);
 }
 
-long up(int *sem_id){
+long up(int sem_id){
     return syscall(__NR_up, sem_id);
 }

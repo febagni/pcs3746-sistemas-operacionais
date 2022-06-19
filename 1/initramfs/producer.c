@@ -15,9 +15,9 @@
 struct shmseg {
     int cnt;
     int complete;
-    int * mutex;
-    int * empty;
-    int * full;
+    int mutex;
+    int empty;
+    int full;
     int buf[BUF_SIZE];
 };
 
@@ -52,26 +52,28 @@ int main(int argc, char *argv[]) {
    int item;
    while(1){
       item = produce_item();
-      down(&shmp->empty);
-      down(&shmp->mutex);
+      down(shmp->empty);
+      down(shmp->mutex);
+      printf("Produtor entrando na região crítica!\n");
       shmp->cnt = insert_item(bufptr, spaceavailable, item);
-      up(&shmp->mutex);
-      up(&shmp->full);
+      printf("Produtor saindo da região crítica!\n");
+      up(shmp->mutex);
+      up(shmp->full);
       shmp->complete = 0;
       print_buffer(bufptr, spaceavailable);
       bufptr = shmp->buf;
       spaceavailable = BUF_SIZE;
-      sleep(2);
+      sleep(1);
    }
    return 0;
 }
 
 void print_buffer(int * bufptr, int size){
-   printf("Conteúdo do buffer: \n");
+   printf("\nConteúdo do buffer: \n");
    for(int i=0; i<size; i++){
       printf("%d ", bufptr[i]);
    }
-   printf("\n");
+   printf("\n\n");
 }
 
 void init_buffer(int * bufptr, int size){
@@ -88,11 +90,11 @@ int produce_item() {
 
 int insert_item(int * bufptr, int size, int item){
    int filled_count;
-   if (bufptr[size-1] != -1){
-      printf("Buffer cheio! Item %d descartado \n", item);
-      return -1;
-   }
-   else{
+   //if (bufptr[size-1] != -1){
+   //   printf("Buffer cheio! Item %d descartado \n", item);
+   //   return -1;
+   //}
+   //else{
       for(int i=0; i<size; i++){
          if (bufptr[i] == -1){
             bufptr[i] = item;
@@ -100,6 +102,6 @@ int insert_item(int * bufptr, int size, int item){
             break;
          }
       }
-   }
+   //}
    return filled_count;
 }

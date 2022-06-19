@@ -21,9 +21,9 @@
 struct shmseg {
     int cnt;
     int complete;
-    int * mutex;
-    int * empty;
-    int * full;
+    int mutex;
+    int empty;
+    int full;
     int buf[BUF_SIZE];
 };
 
@@ -63,6 +63,7 @@ int main()
 	}
    
 	printf("Custom initramfs - Hello World syscall:\n");
+	printf("PORRERRRRARARARAABRAHJBFAHJFBAF %d \n\n\n\n", hello_world());
 	hello_world();
 	mount_fs();
 
