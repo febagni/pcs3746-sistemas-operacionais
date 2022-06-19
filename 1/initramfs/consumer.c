@@ -52,8 +52,6 @@ int main(int argc, char *argv[]) {
          perror("read");
          return 1;
       }
-      printf("%d", down(shmp->full));
-      printf("%d", down(shmp->mutex));
       down(shmp->full);
       down(shmp->mutex);
       printf("Consumidor entrando na região crítica!\n");

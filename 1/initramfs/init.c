@@ -63,7 +63,6 @@ int main()
 	}
    
 	printf("Custom initramfs - Hello World syscall:\n");
-	printf("PORRERRRRARARARAABRAHJBFAHJFBAF %d \n\n\n\n", hello_world());
 	hello_world();
 	mount_fs();
 

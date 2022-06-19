@@ -4,9 +4,9 @@
 
 #define __NR_stop	401
 #define __NR_start	402
-#define __NR_init_semaphore 403
-#define __NR_down 404
-#define __NR_up 405
+#define __NR_init_semaphore 404
+#define __NR_down 405
+#define __NR_up 406
 
 long stop_process(int pid)
 {
