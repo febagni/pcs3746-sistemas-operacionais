@@ -2,32 +2,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
 #include <sys/mount.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <sys/mman.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include "hello_world.h"
-#include "semaphore.h"
+
+#include "stack.h"
 
 #define len(_arr) ((int)((&_arr)[1] - _arr))
-#define SHM_KEY 0x1234
-#define BUF_SIZE 5
 
-struct shmseg {
-    int cnt;
-    int complete;
-    int mutex;
-    int empty;
-    int full;
-    int buf[BUF_SIZE];
-};
-
-static const char * const programs[] = {"/consumer", "/producer"};
+static const char * const programs[] = { "/stack_push", "/stack_pop", "/stack_monitor" };
 
 void panic(const char *msg)
 {
@@ -47,29 +33,9 @@ void mount_fs()
 
 int main()
 {
-	int shmid;
-	struct shmseg *shmp;
-	shmid = shmget(SHM_KEY, sizeof(struct shmseg), 0644|IPC_CREAT);
-	if (shmid == -1) {
-    	perror("Shared memory");
-    	return 1;
-	}
-   
-	// Attach to the segment to get a pointer to it.
-	shmp = shmat(shmid, NULL, 0);
-	if (shmp == (void *) -1) {
-    	perror("Shared memory attach");
-    	return 1;
-	}
-   
 	printf("Custom initramfs - Hello World syscall:\n");
 	hello_world();
 	mount_fs();
-
-	printf("Initializing semaphores!\n");
-	shmp->mutex = init_semaphore(1);
-	shmp->empty = init_semaphore(BUF_SIZE);
-	shmp->full = init_semaphore(0);
 
 	printf("Forking to run %d programs\n", len(programs));
 
